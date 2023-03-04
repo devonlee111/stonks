@@ -5,6 +5,14 @@ A python program that uses machine learning to predict future stock market price
 This project was only meant for fun and to explore ML and its potential uses.
 Any predictions and/or results of Stongs should not be taken as fact and should only serve as a guide to potential trends.
 
+## Requirements
+
+WIP
+
+## Installation
+
+WIP
+
 ## Usage
 
 WIP
