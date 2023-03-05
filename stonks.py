@@ -115,7 +115,7 @@ ticker = "SPY"
 ticker_data_filename = ""
 # model name to save, making it as unique as possible based on parameters
 model_name = ""
-   
+
 def load_config(config_file, config_id):
     """
     load hyperparameters from config file
@@ -156,8 +156,8 @@ def train():
     train a new model for the given ticker
     """
     # load the data
-    data = load_data(ticker, n_steps=n_steps, scale=SCALE, split_by_date=SPLIT_BY_DATE, 
-                    shuffle=SHUFFLE, lookup_step=lookup_step, test_size=TEST_SIZE, 
+    data = load_data(ticker, n_steps=n_steps, scale=SCALE, split_by_date=SPLIT_BY_DATE,
+                    shuffle=SHUFFLE, lookup_step=lookup_step, test_size=TEST_SIZE,
                     feature_columns=FEATURE_COLUMNS)
 
     # save the dataframe
@@ -170,10 +170,10 @@ def train():
     # some tensorflow callbacks
     checkpointer = ModelCheckpoint(os.path.join("results", model_name + ".h5"), save_weights_only=True, save_best_only=True, verbose=1)
     tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
-    # train the model and save the weights whenever we see 
+    # train the model and save the weights whenever we see
     # a new optimal model using ModelCheckpoint
-    
-    #history = 
+
+    #history =
     model.fit(data["X_train"], data["y_train"],
                     batch_size=batch_size,
                     epochs=epochs,
@@ -201,11 +201,11 @@ def plot_graph(test_df):
 
 def get_final_df(model, data):
     """
-    This function takes the `model` and `data` dict to 
-    construct a final dataframe that includes the features along 
+    This function takes the `model` and `data` dict to
+    construct a final dataframe that includes the features along
     with true and predicted prices of the testing dataset
     """
-    # if predicted future price is higher than the current, 
+    # if predicted future price is higher than the current,
     # then calculate the true future price minus the current price, to get the buy profit
     buy_profit  = lambda current, pred_future, true_future: true_future - current if pred_future > current else 0
     # if the predicted future price is lower than the current price,
@@ -227,16 +227,16 @@ def get_final_df(model, data):
     test_df.sort_index(inplace=True)
     final_df = test_df
     # add the buy profit column
-    final_df["buy_profit"] = list(map(buy_profit, 
-                                    final_df["adjclose"], 
-                                    final_df[f"adjclose_{lookup_step}"], 
+    final_df["buy_profit"] = list(map(buy_profit,
+                                    final_df["adjclose"],
+                                    final_df[f"adjclose_{lookup_step}"],
                                     final_df[f"true_adjclose_{lookup_step}"])
                                     # since we don't have profit for last sequence, add 0's
                                     )
     # add the sell profit column
-    final_df["sell_profit"] = list(map(sell_profit, 
-                                    final_df["adjclose"], 
-                                    final_df[f"adjclose_{lookup_step}"], 
+    final_df["sell_profit"] = list(map(sell_profit,
+                                    final_df["adjclose"],
+                                    final_df[f"adjclose_{lookup_step}"],
                                     final_df[f"true_adjclose_{lookup_step}"])
                                     # since we don't have profit for last sequence, add 0's
                                     )
@@ -288,20 +288,20 @@ def test():
 
     # get the final dataframe for the testing set
     final_df = get_final_df(model, data)
-    
+
     # predict the future price
     future_price = predict(model, data)
-    
+
     # we calculate the accuracy by counting the number of positive profits
     #accuracy_score = (len(final_df[final_df['sell_profit'] > 0]) + len(final_df[final_df['buy_profit'] > 0])) / len(final_df)
-    
+
     # calculating total buy & sell profit
     #total_buy_profit  = final_df["buy_profit"].sum()
     #total_sell_profit = final_df["sell_profit"].sum()
-    
+
     # total profit by adding sell & buy together
     #total_profit = total_buy_profit + total_sell_profit
-    
+
     # dividing total profit by number of testing samples (number of trades)
     #profit_per_trade = total_profit / len(final_df)
     # printing metrics
@@ -398,7 +398,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
     # last `lookup_step` columns contains NaN in future column
     # get them before droping NaNs
     last_sequence = np.array(df[feature_columns].tail(lookup_step))
-    
+
     # drop NaNs
     df.dropna(inplace=True)
 
@@ -417,7 +417,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
     last_sequence = np.array(last_sequence).astype(np.float32)
     # add to result
     result['last_sequence'] = last_sequence
-    
+
     # construct the X's and y's
     X, y = [], []
     for seq, target in sequence_data:
@@ -439,9 +439,9 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
             # shuffle the datasets for training (if shuffle parameter is set)
             shuffle_in_unison(result["X_train"], result["y_train"])
             shuffle_in_unison(result["X_test"], result["y_test"])
-    else:    
+    else:
         # split the dataset randomly
-        result["X_train"], result["X_test"], result["y_train"], result["y_test"] = train_test_split(X, y, 
+        result["X_train"], result["X_test"], result["y_train"], result["y_test"] = train_test_split(X, y,
                                                                                 test_size=test_size, shuffle=shuffle)
 
     # get the list of test set dates
@@ -484,9 +484,9 @@ def create_model(sequence_length, n_features, units=256, cell=LSTM, n_layers=2, 
     model.add(Dense(1, activation="linear"))
     model.compile(loss=loss, metrics=["mean_absolute_error"], optimizer=optimizer)
     return model
-    
-    
-    
+
+
+
 #################### TUNING ####################
 # Implement a genetic algorithm to tune hyperparameters over time
 

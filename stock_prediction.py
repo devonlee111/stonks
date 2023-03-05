@@ -34,7 +34,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
         scale (bool): whether to scale prices from 0 to 1, default is True
         shuffle (bool): whether to shuffle the dataset (both training & testing), default is True
         lookup_step (int): the future lookup step to predict, default is 1 (e.g next day)
-        split_by_date (bool): whether we split the dataset into training/testing by date, setting it 
+        split_by_date (bool): whether we split the dataset into training/testing by date, setting it
             to False will split datasets in a random way
         test_size (float): ratio for test data, default is 0.2 (20% testing data)
         feature_columns (list): the list of features to use to feed into the model, default is everything grabbed from yahoo_fin
@@ -79,7 +79,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
     # last `lookup_step` columns contains NaN in future column
     # get them before droping NaNs
     last_sequence = np.array(df[feature_columns].tail(lookup_step))
-    
+
     # drop NaNs
     df.dropna(inplace=True)
 
@@ -98,7 +98,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
     last_sequence = np.array(last_sequence).astype(np.float32)
     # add to result
     result['last_sequence'] = last_sequence
-    
+
     # construct the X's and y's
     X, y = [], []
     for seq, target in sequence_data:
@@ -120,7 +120,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
             # shuffle the datasets for training (if shuffle parameter is set)
             shuffle_in_unison(result["X_train"], result["y_train"])
             shuffle_in_unison(result["X_test"], result["y_test"])
-    else:    
+    else:
         # split the dataset randomly
         result["X_train"], result["X_test"], result["y_train"], result["y_test"] = train_test_split(X, y, 
                                                                                 test_size=test_size, shuffle=shuffle)
@@ -165,4 +165,3 @@ def create_model(sequence_length, n_features, units=256, cell=LSTM, n_layers=2, 
     model.add(Dense(1, activation="linear"))
     model.compile(loss=loss, metrics=["mean_absolute_error"], optimizer=optimizer)
     return model
-    

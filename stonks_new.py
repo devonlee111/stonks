@@ -310,8 +310,8 @@ def get_final_df(config, model, data):
     final_df = test_df
 
     # add the buy profit column
-    final_df["buy_profit"] = list(map(buy_profit, 
-        final_df["adjclose"], 
+    final_df["buy_profit"] = list(map(buy_profit,
+        final_df["adjclose"],
         final_df[f"adjclose_{config.lookup_step}"],
         final_df[f"true_adjclose_{config.lookup_step}"])
         # since we don't have profit for last sequence, add 0's
@@ -319,7 +319,7 @@ def get_final_df(config, model, data):
 
     # add the sell profit column
     final_df["sell_profit"] = list(map(sell_profit,
-        final_df["adjclose"], 
+        final_df["adjclose"],
         final_df[f"adjclose_{config.lookup_step}"],
         final_df[f"true_adjclose_{config.lookup_step}"])
         # since we don't have profit for last sequence, add 0's

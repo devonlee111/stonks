@@ -20,8 +20,8 @@ def train(config_id):
 	load_config("configs/hyperparameters/config.json", config_id)
 
 	# load the data
-	data = load_data(ticker, N_STEPS, scale=SCALE, split_by_date=SPLIT_BY_DATE, 
-                	shuffle=SHUFFLE, lookup_step=LOOKUP_STEP, test_size=TEST_SIZE, 
+	data = load_data(ticker, N_STEPS, scale=SCALE, split_by_date=SPLIT_BY_DATE,
+                	shuffle=SHUFFLE, lookup_step=LOOKUP_STEP, test_size=TEST_SIZE,
                 	feature_columns=FEATURE_COLUMNS)
 
 	# save the dataframe
@@ -34,7 +34,7 @@ def train(config_id):
 	# some tensorflow callbacks
 	checkpointer = ModelCheckpoint(os.path.join("results", model_name + ".h5"), save_weights_only=True, save_best_only=True, verbose=1)
 	tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
-	# train the model and save the weights whenever we see 
+	# train the model and save the weights whenever we see
 	# a new optimal model using ModelCheckpoint
 	history = model.fit(data["X_train"], data["y_train"],
                     batch_size=BATCH_SIZE,
@@ -42,6 +42,6 @@ def train(config_id):
                     validation_data=(data["X_test"], data["y_test"]),
                     callbacks=[checkpointer, tensorboard],
                     verbose=1)
-                    
+
 train(69)
 

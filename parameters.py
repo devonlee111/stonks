@@ -64,7 +64,7 @@ model_name = f"{date_now}_{ticker}-{shuffle_str}-{scale_str}-{split_by_date_str}
 {LOSS}-{OPTIMIZER}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEP}-layers-{N_LAYERS}-units-{UNITS}"
 if BIDIRECTIONAL:
     model_name += "-b"
-   
+
 def load_config(config_file, config_id):
 	file = open(config_file)
 	config = json.load(file)
