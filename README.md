@@ -3,7 +3,9 @@
 A python program that uses machine learning to predict future stock market prices based on historical data.
 
 This project was only meant for fun and to explore ML and its potential uses.
-Any predictions and/or results of Stongs should not be taken as fact and should only serve as a guide to potential trends.
+Any predictions and/or results of Stonks should not be taken as fact and should only serve as a guide to potential future trends.
+
+<br />
 
 ## Requirements
 
@@ -12,7 +14,6 @@ Nvidia GPU: Not strictly necessary, but speeds up training and predictions
 Nvidia cuDNN: Required for using Nvidia GPU
 
 Python: I used python 3.10, and have not tested with other python versions
-
 
 <br />
 
@@ -48,8 +49,8 @@ Basic Usage `python3 stonks_new.py -m <mode> --ticker <ticker symbol> --days/dat
 
 Modes:
  - train: trains a new model with given parameters
- - predict: use existing model with given parameters for a single prediction n days in the future
- - forecast: use existing model with given parameters for predictions from now until n days in the future
+ - predict: use existing model with given parameters for a single prediction n days in the future (will train a new model first if one does not exist)
+ - forecast: use existing model with given parameters for predictions from now until n days in the future (will train a new model first if one does not exist)
  
  Additional Arguments:
   - --crush: crush the price data to a normalized range of 0 - 100
